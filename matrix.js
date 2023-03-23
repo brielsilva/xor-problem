@@ -12,6 +12,24 @@ class Matrix {
         }
     }
 
+    static fromArray(array) {
+        let m = new Matrix(array.length,1);
+        for(let i = 0; i < array.length; i++) {
+            m.matrix[i][0] = array[i];
+        }
+        return m;
+    }
+
+    toArray(){
+        let arr = [];
+        for(let i = 0; i < this.rows;i++) {
+            for(let j = 0; j < this.cols; j++) {
+                arr.push(this.matrix[i][j])
+            }
+        }
+        return arr;
+    }
+
     static scaleMatrix(matrixOne, matrixTwo) {
         const a = matrixOne.matrix;
         const b = matrixTwo.matrix;
@@ -63,7 +81,7 @@ class Matrix {
     randomize() {
         for(let i = 0; i < this.rows; i++) {
             for(let j = 0; j < this.cols; j++) {
-                this.matrix[i][j] = Math.floor(Math.random() * 10);
+                this.matrix[i][j] = Math.random() * 2 - 1;
             }
         }
     }
@@ -86,16 +104,45 @@ class Matrix {
             }
         }
     }
+
+    static map(matrix,func) {
+        let result = new Matrix(matrix.rows, matrix.cols);
+        for(let i = 0; i < matrix.rows; i++) {
+            for(let j = 0; j < matrix.cols; j++) {
+                let val = matrix.matrix[i][j]
+                result.matrix[i][j] = func(val,i,j);
+                console.log("After:" , result.matrix);
+            }
+        }
+        console.log("Result")
+        console.log(result);
+        return result;
+    }
+
+    static subtract(matrixOne, matrixTwo) {
+        // if(matrixOne.rows !== matrixTwo.rows && matrixOne.cols !== matrixTwo.cols) {
+            //     console.log("Error");
+            // }
+            
+        let result = new Matrix(matrixOne.rows, matrixTwo.cols);
+        for (let i = 0; i < result.rows; i++) {
+            for(let j = 0; j < result.cols; j++) {
+                result.matrix[i][j] = matrixOne.matrix[i][j] - matrixTwo.matrix[i][j];
+            }
+        }
+        return result;
+
+    }
 }
 
 
-const n = new Matrix(2,2);
-const m = new Matrix(2,3); // 3 2
-n.randomize();
-m.randomize();
+// const n = new Matrix(2,2);
+// const m = new Matrix(2,3); // 3 2
+// n.randomize();
+// m.randomize();
 
-console.table(n.matrix);
-console.table(m.matrix);
+// console.table(n.matrix);
+// console.table(m.matrix);
 
-console.table(Matrix.scaleMatrix(n,m).matrix);
-console.table(Matrix.transpose(m).matrix);
+// console.table(Matrix.scaleMatrix(n,m).matrix);
+// console.table(Matrix.transpose(m).matrix);
